@@ -1,0 +1,43 @@
+.flex-row {
+  display: flex;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  height: calc(100vh - 16px - 4.4rem);
+  flex-grow: 1;
+  flex-wrap: wrap;
+  overflow: scroll;
+}
+.menu-bar {
+  border-radius: 0.5rem;
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.sub-menu {
+  display: flex;
+  gap: 0.1rem;
+}
+.menu-bar.horizontal {
+  justify-content: flex-end;
+}
+.menu-bar.horizontal .sub-menu {
+  padding: 0.2rem 0.4rem;
+}
+.menu-bar.horizontal .sub-menu:not(:last-child) {
+  border-right: 1px solid black;
+}
+.menu-bar.vertical {
+  flex-direction: column;
+  height: 100%;
+}
+.menu-bar.vertical .sub-menu {
+  padding: 0.4rem 0.2rem;
+  flex-direction: column;
+}
+.menu-bar.vertical .sub-menu:not(:last-child) {
+  border-bottom: 1px solid black;
+}
