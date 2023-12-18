@@ -26,10 +26,10 @@
   align-items: center;
 }
 
-.content-element:hover .content-element-menu-container-side {
+.content-element:hover .hover-only {
   opacity: 1;
 }
-.content-element-menu-container-side {
+.hover-only {
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
 }
@@ -42,6 +42,7 @@
   justify-content: center;
 }
 .content-element-menu-container-bottom {
+  opacity: 0;
   position: absolute;
   bottom: -2.5rem;
   left: 0;

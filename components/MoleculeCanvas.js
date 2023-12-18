@@ -452,12 +452,12 @@ export class MoleculeCanvas extends LitElement {
           <canvas id="back-canvas" width="400" height="300"></canvas>
           <canvas id="main-canvas" width="400" height="300"></canvas>
         </div>
-        <div class="content-element-menu-container-bottom">
+        <div class="content-element-menu-container-bottom hover-only">
           <span onClick="this.contentEditable='true';" class="molecule-name"
             >H<sub>2</sub>O</span
           >
         </div>
-        <div class="content-element-menu-container-side">
+        <div class="content-element-menu-container-side hover-only">
           <div class="content-element-menu-side-default">
             <svg
               xmlns="http://www.w3.org/2000/svg"
