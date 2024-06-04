@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "module": "ESNext",
+        "target": "es6",
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "jsx": "react",
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "baseUrl": "./",
+        "resolveJsonModule": true,
+        "esModuleInterop": true
+    },
+    "exclude": ["node_modules", "**/node_modules/*"]
+}

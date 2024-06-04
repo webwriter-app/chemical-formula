@@ -1,0 +1,101 @@
+import { css } from 'lit';
+
+export default css`
+    :host {
+        width: 100%;
+    }
+
+    .content-element {
+        position: relative;
+        border: 2px dashed transparent;
+        /* margin: 3rem; */
+        /* max-height: 300px; */
+        /* max-width: 400px; */
+    }
+    .content-element:hover {
+        /* border: 2px dashed black; */
+    }
+    .react::before {
+        content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' height='48' viewBox='0 -960 960 960' width='48'><path d='M594-417H189q-26 0-44.5-18.5T126-480q0-26 18.5-44.5T189-543h405l-77-77q-18-18-18-44t18-44q18-18 44-18t44 18l184 183q9 9 14 21t5 24q0 12-5 24t-14 21L605-252q-18 18-44 18t-44-18q-18-18-18-44t18-44l77-77Z'/></svg>");
+    }
+    .add::before {
+        content: url("data:image/svg+xml;charset=UTF-8,<svg height='48' viewBox='0 -960 960 960' width='48' xmlns='http://www.w3.org/2000/svg'><path d='M417-417H229q-26 0-44.5-18.5T166-480q0-26 18.5-44.5T229-543h188v-188q0-26 18.5-44.5T480-794q26 0 44.5 18.5T543-731v188h188q26 0 44.5 18.5T794-480q0 26-18.5 44.5T731-417H543v188q0 26-18.5 44.5T480-166q-26 0-44.5-18.5T417-229v-188Z'/></svg>");
+    }
+    .react::before,
+    .add::before {
+        height: 100%;
+        width: 4rem;
+        position: absolute;
+        left: -4rem;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .content-element:hover .hover-only {
+        opacity: 1;
+    }
+    .hover-only {
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+    .content-element-menu-container-top {
+        position: absolute;
+        top: -2.5rem;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .content-element-menu-container-bottom {
+        opacity: 0;
+        position: absolute;
+        bottom: -2.5rem;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .molecule-name {
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    input {
+        border: none;
+        border-bottom: 1px solid black;
+    }
+    .content-element-menu-container-side {
+        height: 100%;
+        width: 2rem;
+        position: absolute;
+        top: 0;
+        right: -2.5rem;
+    }
+    .content-element-menu-container-side > div {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        justify-content: center;
+        align-items: center;
+    }
+    .content-element-menu-side-hover {
+        opacity: 0;
+    }
+    .content-element-menu-container-side:hover .content-element-menu-side-default {
+        opacity: 0;
+    }
+    .content-element-menu-container-side:hover .content-element-menu-side-hover {
+        opacity: 1;
+    }
+    canvas:not(:first-child) {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+`;
