@@ -22,7 +22,8 @@ export class MoleculeCanvas extends LitElementWw {
 
     @property({ type: Boolean, attribute: true }) textColor = false;
     @property({ type: Boolean, attribute: true }) highlightColor = false;
-    @property({ type: Object, attribute: true }) molecule: {
+
+    private _molecule: {
         elements: {
             x: number;
             y: number;
@@ -34,6 +35,21 @@ export class MoleculeCanvas extends LitElementWw {
         }[];
         bonds: { s: number; t: number; u: number; v: number; type: number }[];
     };
+
+    @property({ type: Object, attribute: true })
+    public set molecule(value) {
+        this._molecule = value;
+        const event = new CustomEvent('ww-chem-molecule-change', {
+            detail: { value: this._molecule },
+            composed: true,
+            bubbles: true,
+        });
+
+        this.dispatchEvent(event);
+    }
+    public get molecule() {
+        return this._molecule;
+    }
 
     @property({ type: Number, attribute: true }) width = 100;
     @property({ type: Number, attribute: true }) height = 100;
@@ -208,6 +224,7 @@ export class MoleculeCanvas extends LitElementWw {
             });
         }
         this.redrawMolecule();
+        this.molecule = { ...this.molecule };
     };
 
     //Coordinate helper funcitons

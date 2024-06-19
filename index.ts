@@ -20,9 +20,6 @@ import SlTooltip from '@shoelace-style/shoelace/dist/components/tooltip/tooltip.
 
 import {
     faPlus,
-    biPerson,
-    biPcDisplayHorizontal,
-    biPhone,
     biType,
     biMarkerTip,
     biHiglighter,
@@ -58,10 +55,25 @@ export class ChemDraw extends LitElementWw {
     @property({ type: Number }) _bondMode = 1;
     @property({ type: Boolean }) _elementselect = false;
 
+    @property({ type: Object, attribute: true, reflect: true }) molecule: {
+        elements: {
+            x: number;
+            y: number;
+            label: string;
+            style: number;
+            color: string;
+            background: string;
+            deco: any[];
+        }[];
+        bonds: { s: number; t: number; u: number; v: number; type: number }[];
+    };
+
     @property({ type: Array })
     canvasList: Array<any> = [];
 
     @query('#toolboxButtons') toolboxButtons: HTMLElement;
+
+    @query('#moleculeCanvas') moleculeCanvas: MoleculeCanvas;
 
     constructor() {
         super();
@@ -129,7 +141,13 @@ export class ChemDraw extends LitElementWw {
 
     static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
-    protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {}
+    protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+        this.moleculeCanvas.addEventListener('ww-chem-molecule-change', (e: any) => {
+            this.molecule = { ...e.detail.value };
+        });
+
+        this.moleculeCanvas.molecule = this.molecule;
+    }
 
     public static get scopedElements() {
         return {
@@ -146,7 +164,7 @@ export class ChemDraw extends LitElementWw {
         return html`
             ${this.toolboxTemplate()}
             <div class="flex-column">
-                <div class="menu-bar horizontal flex-row" id="menu-tools">
+                <div class="menu-bar horizontal flex-row" id="menu-tools" style="display:none">
                     <div class="sub-menu" id="sub-menu-view">
                         <!-- <ww-chem-icon-button
                             toggle
@@ -231,32 +249,32 @@ export class ChemDraw extends LitElementWw {
                 </div>
                 <div class="flex-row">
                     <div class="content flex-row">
-                        ${this.canvasList.map((element) => {
-                            return html`
-                                <ww-chem-molecule-canvas
-                                    @ww-chem-reactsTo=${(e) => {
-                                        this.canvasList = [
-                                            ...this.canvasList,
-                                            {
-                                                class: e.detail.value,
-                                            },
-                                        ];
-                                    }}
-                                    zoom=${this.zoom}
-                                    class=${element.class}
-                                    ?delete=${this._edit}
-                                    ?bold=${this._bold}
-                                    ?italic=${this._italic}
-                                    ?delete=${this._delete}
-                                    ?lewis=${this._lewis}
-                                    ?textColor=${this._color}
-                                    ?highlightColor=${this._highlight}
-                                    insertMode=${this._insertMode}
-                                    bondMode=${this._bondMode}
-                                    test=${this.test}
-                                ></ww-chem-molecule-canvas>
-                            `;
-                        })}
+                        <ww-chem-molecule-canvas
+                            @ww-chem-reactsTo=${(e) => {
+                                this.canvasList = [
+                                    ...this.canvasList,
+                                    {
+                                        class: e.detail.value,
+                                    },
+                                ];
+                            }}
+                            zoom=${this.zoom}
+                            ?delete=${this._edit}
+                            ?bold=${this._bold}
+                            ?italic=${this._italic}
+                            ?delete=${this._delete}
+                            ?lewis=${this._lewis}
+                            ?textColor=${this._color}
+                            ?highlightColor=${this._highlight}
+                            insertMode=${this._insertMode}
+                            bondMode=${this._bondMode}
+                            test=${this.test}
+                            id="moleculeCanvas"
+                            @ww-chem-molecule-change=${(e) => {
+                                console.log('change', e);
+                                this.molecule = e.detail.value;
+                            }}
+                        ></ww-chem-molecule-canvas>
                     </div>
                     <div class="menu-bar vertical flex-column" id="menu-objects" style="display:none">
                         <div class="sub-menu" id="sub-menu-elements">
@@ -485,19 +503,141 @@ export class ChemDraw extends LitElementWw {
                         </div>
                     </div>
                     <div class="toolbox__buttongroup">
-                        <sl-tooltip content="Elementauswahl" placement="right">
-                            <sl-button
-                                circle
-                                class="toolbox__btn"
-                                variant=${this._elementselect ? 'primary' : 'default'}
-                                @click=${() => {
-                                    this._elementselect = !this._elementselect;
-                                    this.toolboxButtons.classList.add('closed');
-                                }}
-                            >
-                                ${biEyeDropper}
-                            </sl-button>
-                        </sl-tooltip>
+                        <!-- <sl-tooltip content="Elementauswahl" placement="right"> -->
+                        <sl-button
+                            circle
+                            class="toolbox__btn"
+                            variant=${this._elementselect ? 'primary' : 'default'}
+                            @click=${() => {
+                                this._elementselect = !this._elementselect;
+                                this.toolboxButtons.classList.add('closed');
+                            }}
+                        >
+                            ${biEyeDropper}
+                        </sl-button>
+                        <!-- </sl-tooltip> -->
+                        <div class="toolbox__subbuttons">
+                            <sl-tooltip content="Wasserstoff" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'H' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'H';
+                                    }}
+                                >
+                                    H
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Kohlenstoff" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'C' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'C';
+                                    }}
+                                >
+                                    C
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Stickstoff" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'N' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'N';
+                                    }}
+                                >
+                                    N
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Sauerstoff" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'O' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'O';
+                                    }}
+                                >
+                                    O
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Schwefel" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'S' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'S';
+                                    }}
+                                >
+                                    S
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Flour" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'F' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'F';
+                                    }}
+                                >
+                                    F
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Phosphor" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'P' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'P';
+                                    }}
+                                >
+                                    P
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Chlor" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'Cl' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'Cl';
+                                    }}
+                                >
+                                    Cl
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Brom" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'Br' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'Br';
+                                    }}
+                                >
+                                    Br
+                                </sl-button>
+                            </sl-tooltip>
+                            <sl-tooltip content="Iod" placement="top">
+                                <sl-button
+                                    circle
+                                    class="toolbox__btn"
+                                    variant=${this._insertMode === 'I' ? 'primary' : 'default'}
+                                    @click=${() => {
+                                        this._insertMode = 'I';
+                                    }}
+                                >
+                                    I
+                                </sl-button>
+                            </sl-tooltip>
+                        </div>
                     </div>
                 </div>
             </div>

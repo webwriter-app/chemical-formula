@@ -69,11 +69,9 @@ export class PeriodicTable extends LitElementWw {
     @property({ type: Object, attribute: true, reflect: true })
     private selectedElement: Element = periodicTable.elements[1] as Element;
 
-    protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-        let p = document.createElement('p');
-        p.innerHTML = 'Hello World';
-
-        this.appendChild(p);
+    focus() {
+        console.log('focus');
+        this.dispatchEvent(new CustomEvent('focus'));
     }
 
     render() {
@@ -103,6 +101,7 @@ export class PeriodicTable extends LitElementWw {
                                 });
                                 this.dispatchEvent(e);
                                 this.selectedElement = value;
+                                this.focus();
                             }}
                         >
                             <div class="element-number">${value.number}</div>
