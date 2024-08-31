@@ -67,7 +67,7 @@ export class PeriodicTable extends LitElementWw {
     static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
     @property({ type: Object, attribute: true, reflect: true })
-    private selectedElement: Element = periodicTable.elements[1] as Element;
+    private accessor selectedElement: Element = periodicTable.elements[1] as Element;
 
     focus() {
         console.log('focus');

@@ -8,7 +8,7 @@
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "sourceMap": true,
-        "experimentalDecorators": true,
+        "experimentalDecorators": false,
         "baseUrl": "./",
         "resolveJsonModule": true,
         "esModuleInterop": true

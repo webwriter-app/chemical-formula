@@ -41,21 +41,21 @@ export class ChemDraw extends LitElementWw {
     }
 
     @property({ type: Number, attribute: false, reflect: false })
-    zoom: number = 6;
+    accessor zoom: number = 6;
 
-    @property({ type: Boolean }) _bold = false;
-    @property({ type: Boolean }) _italic = false;
-    @property({ type: Boolean }) _underline = false;
-    @property({ type: Boolean }) _delete = false;
-    @property({ type: Boolean }) _lewis = false;
-    @property({ type: Boolean }) _color = false;
-    @property({ type: Boolean }) _highlight = false;
-    @property({ type: Array }) _elements = [];
-    @property({ type: String }) _insertMode = 'H';
-    @property({ type: Number }) _bondMode = 1;
-    @property({ type: Boolean }) _elementselect = false;
+    @property({ type: Boolean }) accessor _bold = false;
+    @property({ type: Boolean }) accessor _italic = false;
+    @property({ type: Boolean }) accessor _underline = false;
+    @property({ type: Boolean }) accessor _delete = false;
+    @property({ type: Boolean }) accessor _lewis = false;
+    @property({ type: Boolean }) accessor _color = false;
+    @property({ type: Boolean }) accessor _highlight = false;
+    @property({ type: Array }) accessor _elements = new Array();
+    @property({ type: String }) accessor _insertMode = 'H';
+    @property({ type: Number }) accessor _bondMode = 1;
+    @property({ type: Boolean }) accessor _elementselect = false;
 
-    @property({ type: Object, attribute: true, reflect: true }) molecule: {
+    @property({ type: Object, attribute: true, reflect: true }) accessor molecule: {
         elements: {
             x: number;
             y: number;
@@ -69,11 +69,11 @@ export class ChemDraw extends LitElementWw {
     };
 
     @property({ type: Array })
-    canvasList: Array<any> = [];
+    accessor canvasList: Array<any> = [];
 
-    @query('#toolboxButtons') toolboxButtons: HTMLElement;
+    @query('#toolboxButtons') accessor toolboxButtons: HTMLElement;
 
-    @query('#moleculeCanvas') moleculeCanvas: MoleculeCanvas;
+    @query('#moleculeCanvas') accessor moleculeCanvas: MoleculeCanvas;
 
     constructor() {
         super();
@@ -145,7 +145,9 @@ export class ChemDraw extends LitElementWw {
         this.moleculeCanvas.addEventListener('ww-chem-molecule-change', (e: any) => {
             this.molecule = { ...e.detail.value };
         });
-
+        if(typeof(this.molecule) === 'undefined'){
+            return
+        }
         this.moleculeCanvas.molecule = this.molecule;
     }
 

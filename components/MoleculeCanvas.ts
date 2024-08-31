@@ -10,18 +10,18 @@ export class MoleculeCanvas extends LitElementWw {
         return [canvasStyles];
     }
 
-    @property({ type: Number, attribute: true }) zoom = 10;
-    @property({ type: String, attribute: true }) class = '';
+    @property({ type: Number, attribute: true }) accessor zoom = 10;
+    @property({ type: String, attribute: true }) accessor class = '';
 
-    @property({ type: String, attribute: true }) insertMode = 'H';
-    @property({ type: Boolean, attribute: true }) bold = false;
-    @property({ type: Boolean, attribute: true }) italic = false;
-    @property({ type: Boolean, attribute: true }) delete = false;
-    @property({ type: Boolean, attribute: true }) lewis = false;
-    @property({ type: Number, attribute: true }) bondMode = 1;
+    @property({ type: String, attribute: true }) accessor insertMode = 'H';
+    @property({ type: Boolean, attribute: true }) accessor bold = false;
+    @property({ type: Boolean, attribute: true }) accessor italic = false;
+    @property({ type: Boolean, attribute: true }) accessor delete = false;
+    @property({ type: Boolean, attribute: true }) accessor lewis = false;
+    @property({ type: Number, attribute: true }) accessor bondMode = 1;
 
-    @property({ type: Boolean, attribute: true }) textColor = false;
-    @property({ type: Boolean, attribute: true }) highlightColor = false;
+    @property({ type: Boolean, attribute: true }) accessor textColor = false;
+    @property({ type: Boolean, attribute: true }) accessor highlightColor = false;
 
     private _molecule: {
         elements: {
@@ -34,9 +34,8 @@ export class MoleculeCanvas extends LitElementWw {
             deco: any[];
         }[];
         bonds: { s: number; t: number; u: number; v: number; type: number }[];
-    };
+    }
 
-    @property({ type: Object, attribute: true })
     public set molecule(value) {
         this._molecule = value;
         const event = new CustomEvent('ww-chem-molecule-change', {
@@ -51,17 +50,17 @@ export class MoleculeCanvas extends LitElementWw {
         return this._molecule;
     }
 
-    @property({ type: Number, attribute: true }) width = 100;
-    @property({ type: Number, attribute: true }) height = 100;
+    @property({ type: Number, attribute: true }) accessor width = 100;
+    @property({ type: Number, attribute: true }) accessor height = 100;
 
-    @query('#main-canvas') mainCanvas;
-    @query('#back-canvas') backCanvas;
-    @query('#hover-canvas') hoverCanvas;
-    @query('#active-canvas') activeCanvas;
-    @query('#highlight-canvas') highlightCanvas;
+    @query('#main-canvas') accessor mainCanvas;
+    @query('#back-canvas') accessor backCanvas;
+    @query('#hover-canvas') accessor hoverCanvas;
+    @query('#active-canvas') accessor activeCanvas;
+    @query('#highlight-canvas') accessor highlightCanvas;
 
-    @state() previous: number[] = [];
-    @state() selected: number[] = [];
+    @state() accessor previous: number[] = [];
+    @state() accessor selected: number[] = [];
 
     get hex_h_size() {
         return this.mainCanvas.height / this.zoom / 2;
