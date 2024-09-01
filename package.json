@@ -1,7 +1,7 @@
 {
   "name": "@webwriter/chemdraw",
   "version": "0.2.1",
-  "description": "canvas for drawing chemical molecules. Includes custom highlighting and text descriptions.",
+  "description": "Draw chemical molecules. Add custom highlighting and text descriptions.",
   "type": "module",
   "keywords": [
     "webwriter-widget"
