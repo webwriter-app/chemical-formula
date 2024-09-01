@@ -9,7 +9,8 @@
   "main": "./components/PeriodicTable.ts",
   "exports": {
     "./widgets/webwriter-chemdraw": "./index.ts",
-    "./widgets/webwriter-periodic-table": "./components/PeriodicTable.ts"
+    "./widgets/webwriter-periodic-table": "./components/PeriodicTable.ts",
+    "./*": {"source": "./*", "default": null}
   },
   "author": "Raphael Thelen <raphael.thelen@rwth-aachen.de>",
   "license": "MIT",
