@@ -1,22 +1,26 @@
 {
   "name": "@webwriter/chemdraw",
-  "version": "0.2.1",
+  "version": "2.0.0",
   "description": "Draw chemical molecules. Add custom highlighting and text descriptions.",
   "type": "module",
   "keywords": [
     "webwriter-widget"
   ],
-  "main": "./components/PeriodicTable.ts",
   "exports": {
-    "./widgets/webwriter-chemdraw": "./index.ts",
-    "./widgets/webwriter-periodic-table": "./components/PeriodicTable.ts",
-    "./*": {"source": "./*", "default": null}
+    "./widgets/webwriter-chemdraw.*": {
+      "source": "./index.ts",
+      "default": "./dist/widgets/webwriter-chemdraw.*"
+    },
+    "./widgets/webwriter-periodic-table.*": {
+      "source": "./components/PeriodicTable.ts",
+      "default": "./dist/widgets/webwriter-periodic-table.*"
+    },
+    "./package.json": "./package.json"
   },
   "author": "Raphael Thelen <raphael.thelen@rwth-aachen.de>",
   "license": "MIT",
   "scripts": {
-    "dev": "vite --open",
-    "build": "vite build"
+    "prepublishOnly": "npx @webwriter/build"
   },
   "dependencies": {
     "@shoelace-style/shoelace": "^2.15.0",
